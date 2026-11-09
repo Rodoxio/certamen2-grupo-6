@@ -115,6 +115,10 @@ def _normalizar(t):
     return re.sub(r"[™®©]", "", str(t)).lower().strip()
 
 
+def _alfanum(t):
+    return re.sub(r"[^a-z0-9]", "", _normalizar(t))
+
+
 def verificar_honestidad(texto, contexto, catalogo):
     # 1) ¿Nombra algún juego del catálogo que NO estaba en el contexto?
     # 2) ¿Cada "#k Nombre" corresponde de verdad a la posición k de la lista del modelo?
@@ -137,11 +141,14 @@ def verificar_honestidad(texto, contexto, catalogo):
         if not lista or k > len(lista):
             errores.append(f"#{k} no existe en la lista")
             continue
-        # El prompt exige el formato "#k Nombre": el nombre real de la posición k debe venir justo después
-        esperado = _normalizar(lista[k - 1]["juego"])[:10]
-        antes = t[max(0, m.start() - 60): m.start()]      # también vale "Nombre (coseno #k)"
-        if esperado not in ventana[:60] and esperado not in antes:
-            errores.append(f"#{k} no corresponde a {lista[k - 1]['juego']}")
+        # El prompt exige "#k Nombre": se compara el nombre COMPLETO solo con letras y números,
+        # así "Call of Duty WWII" calza con "Call of Duty®: WWII", pero "Counter-Steam" no calza con "Counter-Strike"
+        esperado = _alfanum(lista[k - 1]["juego"])
+        largo = len(lista[k - 1]["juego"]) + 25
+        despues = _alfanum(t[m.end(): m.end() + largo])
+        antes = _alfanum(t[max(0, m.start() - largo): m.start()])      # también vale "Nombre (coseno #k)"
+        if not despues.startswith(esperado) and esperado not in antes:
+            errores.append(f"#{k} no corresponde exactamente a {lista[k - 1]['juego']}")
     return {"ok": not fuera and not errores, "fuera_de_lista": fuera, "rangos_incorrectos": errores}
 
 
