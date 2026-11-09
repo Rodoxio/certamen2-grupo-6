@@ -157,7 +157,7 @@ with pestanas[0]:
             st.markdown('<span class="etiqueta">Popularidad (arranque en frío)</span>', unsafe_allow_html=True)
             tabla(res["top_p"], "reseñas en entrenamiento")
     with col2:
-        st.markdown('<span class="etiqueta">Línea base · ítem–ítem coseno (γ = 0,9)</span>' if historial
+        st.markdown('<span class="etiqueta">Línea base · ítem–ítem coseno (decaimiento 0,9)</span>' if historial
                     else '<span class="etiqueta">Línea base · popularidad</span>', unsafe_allow_html=True)
         tabla(res["top_c"], "puntaje" if historial else "reseñas en entrenamiento")
 
