@@ -1,0 +1,10 @@
+# Clave del LLM: nunca va a GitHub (se configura en los secrets de Streamlit Cloud)
+.streamlit/secrets.toml
+.env
+
+# Datos originales: pesan 1,3 GB y traen nombres de usuario reales
+*.json.gz
+interacciones_steam.parquet
+
+__pycache__/
+.ipynb_checkpoints/
