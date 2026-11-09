@@ -1,0 +1,5 @@
+modelo,HR@10,% populares,novedad (bits),diversidad,géneros distintos,% listas con sesgo alto,% listas con sesgo medio,cobertura@10
+SASRec,0.111,0.9376,6.1181,0.6878,4.0003,0.8628,0.0503,0.5646
+Coseno,0.086,0.8232,6.2355,0.6703,4.1165,0.7439,0.0359,0.7562
+Popularidad,0.0552,1.0,4.3051,0.7124,3.9998,1.0,0.0,0.0089
+Juego real siguiente (referencia),,0.7333,7.9892,,,,,0.653
